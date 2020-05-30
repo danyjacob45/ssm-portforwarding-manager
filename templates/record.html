@@ -6,20 +6,20 @@
             {% endfor %}
             <th>port</th>
             <th>connect</th>
-            <th>Disconnect</th>
+{#            <th>Disconnect</th>#}
         </tr>
     </thead>
     <tbody>
         {% for record in records %}
         <tr>
+            <form>
             {% for col in colnames %}
-            <td>{{ record[col] }}</td>
+            <td><input name="{{ col }}" value="{{ record[col] }}" readonly></td>
             {% endfor %}
-            <td><input type ="number" name="edit" value="Port"></td>
-            <td><input type="submit" name="connect" value="Connect"></td>
-            <td><input type="submit" name="disconnect" value="Disconnect"></td>
+            <td><input name="port"><br></td>
+            <td><input type="submit" formaction="/connect" value="connect"></td>
+            </form>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-
