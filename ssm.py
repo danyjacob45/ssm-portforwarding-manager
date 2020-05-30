@@ -1,10 +1,7 @@
-import boto3
 import socketserver
-import websocket
 import subprocess
-import os 
 
-
+import boto3
 
 AWS_CONNECTED = True
 
@@ -33,7 +30,7 @@ def setup():
             # print (instance.id , instance.platform)
             for tag in instance.tags:
                 if tag["Key"] == "Name":
-                    my_json['tag_tame'] = tag["Value"]
+                    my_json['tag_name'] = tag["Value"]
             list_info.append(my_json)
     print(list_info)
     return list_info
@@ -42,15 +39,17 @@ def setup():
 def setupDummy():
     a = ["dltest", "dlprod"] #to be loaded from a config if possible
     list_info = []
-    my_json = {}
+
     for x in range(len(a)):
 
-        for instance in range(2):
+        for instance in range(1,4):
+            my_json = {}
             my_json["profile"] = a[x]
-            my_json['instance_id'] = str(instance*1)
+            my_json['instance_id'] = str(instance*1)+a[x]
             my_json['platform'] = str(instance*1)
             # print (instance.id , instance.platform)
-            my_json['tag_tame'] = "Value"
+            my_json['tag_name'] = "Value"
+
             list_info.append(my_json)
     print(list_info)
     return list_info

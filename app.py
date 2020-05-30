@@ -1,9 +1,10 @@
-from flask import Flask, render_template, make_response, jsonify, request, redirect, url_for
-import requests
+from datetime import datetime
+from flask import Flask, render_template, make_response, request, redirect, url_for
+import config
 import ssm
+from model import db, SSMAgentList
 
-app = Flask(__name__)
-
+app = config.create_app()
 
 @app.route('/')
 def hello_world():
@@ -13,25 +14,49 @@ def hello_world():
 @app.route('/list', methods=['GET'])
 def listDetails():
     try:
-        response = ssm.setup()
-        #response = ssm.setupDummy()
+        #response = ssm.setup()
+        response = ssm.setupDummy()
+        try:
+            for each in response:
+                record = SSMAgentList.query.filter_by(instance_id = each['instance_id']).first()
+                if(record):
+                    continue
+                ssm_Obj = SSMAgentList(profile=each['profile'],
+                                       instance_id=each['instance_id'],
+                                       platform=each['platform'],
+                                       tag_name=each['tag_name'],
+                                       free_port="not connected",
+                                       updated_time=datetime.now()
+                                       )
+                db.session.add(ssm_Obj)
+                db.session.commit()
+        except:
+            pass
     except:
         return make_response("Something went wrong! Try again!")
-    column_names = ['profile', 'instance_id', 'platform', 'tag_tame', 'free_port']
+    column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'free_port']
     return render_template('record.html', records=response, colnames=column_names)
 
 
 @app.route('/update', methods=['GET'])
 def update():
     try:
-        response = ssm.setup()
-        #response = ssm.setupDummy()
-        for each in response:
-            if each['instance_id'] == request.args['id']:
-                each['free_port'] = request.args['free_port']
-    except:
+        #response = ssm.setup()
+        id = request.args['id']
+        port = request.args['free_port']
+        #query from db now...
+        record = SSMAgentList.query.filter_by(instance_id=id).first()
+        record.free_port = port
+        record.updated_time = datetime.now()
+        db.session.add(record)
+        db.session.commit()
+        response = []
+        for each in SSMAgentList.query.all():
+            response.append(each.to_json())
+    except Exception as e:
+        print(e)
         return make_response("Something went wrong! Try again!")
-    column_names = ['profile', 'instance_id', 'platform', 'tag_tame', 'free_port']
+    column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'free_port']
     return render_template('record.html', records=response, colnames=column_names)
 
 
@@ -42,8 +67,8 @@ def connect():
     platform = request.args['platform']
     profile = request.args['profile']
     try:
-        execution_result = ssm.executeSSM(id, platform, profile)
-        #execution_result = '1000'
+        #execution_result = ssm.executeSSM(id, platform, profile)
+        execution_result = '1000'
     except:
         return make_response("Something went wrong! Try again!")
     return redirect(url_for('update', free_port=execution_result, id=id))
@@ -56,4 +81,4 @@ def disconnect():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
