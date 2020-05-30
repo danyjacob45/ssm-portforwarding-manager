@@ -47,8 +47,8 @@ def setupDummy():
 
         for instance in range(2):
             my_json["profile"] = a[x]
-            my_json['instance_id'] = instance*1
-            my_json['platform'] = instance*1
+            my_json['instance_id'] = str(instance*1)
+            my_json['platform'] = str(instance*1)
             # print (instance.id , instance.platform)
             my_json['tag_tame'] = "Value"
             list_info.append(my_json)

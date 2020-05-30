@@ -14,6 +14,7 @@ def hello_world():
 def listDetails():
     try:
         response = ssm.setup()
+        #response = ssm.setupDummy()
     except:
         return make_response("Something went wrong! Try again!")
     column_names = ['profile', 'instance_id', 'platform', 'tag_tame', 'free_port']
@@ -22,7 +23,14 @@ def listDetails():
 
 @app.route('/update', methods=['GET'])
 def update():
-    response = ssm.setup()
+    try:
+        response = ssm.setup()
+        #response = ssm.setupDummy()
+        for each in response:
+            if each['instance_id'] == request.args['id']:
+                each['free_port'] = request.args['free_port']
+    except:
+        return make_response("Something went wrong! Try again!")
     column_names = ['profile', 'instance_id', 'platform', 'tag_tame', 'free_port']
     return render_template('record.html', records=response, colnames=column_names)
 
@@ -35,6 +43,7 @@ def connect():
     profile = request.args['profile']
     try:
         execution_result = ssm.executeSSM(id, platform, profile)
+        #execution_result = '1000'
     except:
         return make_response("Something went wrong! Try again!")
     return redirect(url_for('update', free_port=execution_result, id=id))
