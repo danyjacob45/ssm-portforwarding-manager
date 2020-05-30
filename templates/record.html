@@ -4,6 +4,9 @@
             {% for col in colnames %}
             <th>{{ col }}</th>
             {% endfor %}
+            <th>port</th>
+            <th>connect</th>
+            <th>Disconnect</th>
         </tr>
     </thead>
     <tbody>
@@ -12,6 +15,9 @@
             {% for col in colnames %}
             <td>{{ record[col] }}</td>
             {% endfor %}
+            <td><input type = "number" name="edit" value="Send"></td>
+            <td><input type="submit" name="connect" value="Connect"></td>
+            <td><input type="submit" name="disconnect" value="Disconnect"></td>
         </tr>
         {% endfor %}
     </tbody>
