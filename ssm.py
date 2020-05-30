@@ -4,7 +4,7 @@ import socketserver
 AWS_CONNECTED = False
 
 
-def executeSSM( instance_id, platform, profile,port=0):
+def executeSSM(instance_id, platform, profile, port=0):
     if AWS_CONNECTED:
         with socketserver.TCPServer(("localhost", 0), None) as s:
             free_port = s.server_address[1]
@@ -43,22 +43,33 @@ def executeSSM( instance_id, platform, profile,port=0):
 def setup():
     a = ["dltest", "dlprod"] #to be loaded from a config if possible
     list_info = []
-    my_json = {}
-    for i in a:
-        my_json["profile"] = i
-        boto3.setup_default_session(profile_name=i)
+    for x in range(len(a)):
+        boto3.setup_default_session(profile_name=a[x])
         ec2 = boto3.resource('ec2', region_name='ap-southeast-1')
-        # ec2.describe_instances(Filters={"tag:environment" :   Env, "tag:role" : Role})
         for instance in ec2.instances.all():
-            my_json['instance_id'] = instance.id
-            my_json['platform'] = instance.platform
+            my_json = {"profile": a[x], 'instance_id': instance.id, 'platform': instance.platform}
             # print (instance.id , instance.platform)
             for tag in instance.tags:
                 if tag["Key"] == "Name":
                     my_json['tag_tame'] = tag["Value"]
-        list_info.append(my_json)
+            list_info.append(my_json)
     print(list_info)
     return list_info
 
+def setupDummy():
+    a = ["dltest", "dlprod"] #to be loaded from a config if possible
+    list_info = []
+    my_json = {}
+    for x in range(len(a)):
+
+        for instance in range(2):
+            my_json["profile"] = a[x]
+            my_json['instance_id'] = instance*1
+            my_json['platform'] = instance*1
+            # print (instance.id , instance.platform)
+            my_json['tag_tame'] = "Value"
+            list_info.append(my_json)
+    print(list_info)
+    return list_info
 
 executeSSM("i-01f747b2283fde7d3","linux","network")
