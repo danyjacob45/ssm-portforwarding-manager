@@ -11,19 +11,20 @@ def hello_world():
 
 @app.route('/test', methods = ['GET'])
 def jsonparser():
-    url = "https://jsonplaceholder.typicode.com/todos/"
-    response = requests.get(url)
-    json_dict = response.json()
-    column_names = ['userId','id','title','completed']
-    return render_template('record.html', records=json_dict, colnames=column_names)
+    #url = "https://jsonplaceholder.typicode.com/todos/"
+    #response = requests.get(url)
+    #json_dict = response.json()
+    response = ssm.setup()
+    column_names = ['profile','instance_id','platform','tag_tame']
+    return render_template('record.html', records=response, colnames=column_names)
 
 @app.route('/connect', methods = ['GET', 'POST'])
 def connect():
     print("connect pressed")
     port = request.args['port']
-    id = request.args['id']
-    platform = request.args['title']
-    profile = request.args['completed']
+    id = request.args['instance_id']
+    platform = request.args['platform']
+    profile = request.args['profile']
     #ssm.executeSSM(id,platform,profile,port)
     return "Hello from port# " + port
 

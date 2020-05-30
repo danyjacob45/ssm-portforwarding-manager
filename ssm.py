@@ -40,5 +40,25 @@ def executeSSM( instance_id, platform, profile,port=0):
         print (free_port)
         return response,free_port
 
+def setup():
+    a = ["dltest", "dlprod"] #to be loaded from a config if possible
+    list_info = []
+    my_json = {}
+    for i in a:
+        my_json["profile"] = i
+        boto3.setup_default_session(profile_name=i)
+        ec2 = boto3.resource('ec2', region_name='ap-southeast-1')
+        # ec2.describe_instances(Filters={"tag:environment" :   Env, "tag:role" : Role})
+        for instance in ec2.instances.all():
+            my_json['instance_id'] = instance.id
+            my_json['platform'] = instance.platform
+            # print (instance.id , instance.platform)
+            for tag in instance.tags:
+                if tag["Key"] == "Name":
+                    my_json['tag_tame'] = tag["Value"]
+        list_info.append(my_json)
+    print(list_info)
+    return list_info
+
 
 executeSSM("i-01f747b2283fde7d3","linux","network")
