@@ -23,11 +23,11 @@ def jsonparser():
 @app.route('/connect', methods=['GET', 'POST'])
 def connect():
     print("connect pressed")
-    port = request.args['port']
+    #port = request.args['port']
     id = request.args['instance_id']
     platform = request.args['platform']
     profile = request.args['profile']
-    # ssm.executeSSM(id,platform,profile,port)
+    response,free_port = ssm.executeSSM(id,platform,profile,port)
     return "Hello from port# " + port
 
 
