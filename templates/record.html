@@ -4,7 +4,6 @@
             {% for col in colnames %}
             <th>{{ col }}</th>
             {% endfor %}
-            <th>port</th>
             <th>connect</th>
 {#            <th>Disconnect</th>#}
         </tr>
@@ -16,7 +15,6 @@
             {% for col in colnames %}
             <td><input name="{{ col }}" value="{{ record[col] }}" readonly></td>
             {% endfor %}
-            <td><input name="port"><br></td>
             <td><input type="submit" formaction="/connect" value="connect"></td>
             </form>
         </tr>

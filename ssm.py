@@ -20,6 +20,8 @@ def executeSSM(instance_id, platform, profile, port=0):
         aws_ssm_start = "aws ssm --profile "+ profile +" start-session --target " + instance_id + " --document-name AWS-StartPortForwardingSession --parameters " + connect_parameters
         subprocess.Popen(aws_ssm_start)
         return free_port
+
+
 def setup():
     a = ["dltest", "dlprod"] #to be loaded from a config if possible
     list_info = []
@@ -35,6 +37,7 @@ def setup():
             list_info.append(my_json)
     print(list_info)
     return list_info
+
 
 def setupDummy():
     a = ["dltest", "dlprod"] #to be loaded from a config if possible
