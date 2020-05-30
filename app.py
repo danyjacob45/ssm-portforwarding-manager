@@ -17,6 +17,15 @@ def jsonparser():
     column_names = ['userid','id','title','completed']
     return render_template('record.html', records=json_dict, colnames=column_names)
 
+@app.route('/connect', methods = ['GET'])
+def connect():
+    print("connect pressed")
+
+@app.route('/disconnect', methods = ['GET'])
+def disconnect():
+    print("disconnect pressed")
+
+
 if __name__ == '__main__':
 
     app.run()

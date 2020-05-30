@@ -15,10 +15,11 @@
             {% for col in colnames %}
             <td>{{ record[col] }}</td>
             {% endfor %}
-            <td><input type = "number" name="edit" value="Send"></td>
+            <td><input type ="number" name="edit" value="Port"></td>
             <td><input type="submit" name="connect" value="Connect"></td>
             <td><input type="submit" name="disconnect" value="Disconnect"></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
