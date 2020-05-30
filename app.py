@@ -14,8 +14,8 @@ def hello_world():
 @app.route('/list', methods=['GET'])
 def listDetails():
     try:
-        #response = ssm.setup()
-        response = ssm.setupDummy()
+        response = ssm.setup()
+        #response = ssm.setupDummy()
         try:
             for each in response:
                 record = SSMAgentList.query.filter_by(instance_id = each['instance_id']).first()
@@ -41,7 +41,6 @@ def listDetails():
 @app.route('/update', methods=['GET'])
 def update():
     try:
-        #response = ssm.setup()
         id = request.args['id']
         port = request.args['free_port']
         #query from db now...
@@ -67,8 +66,8 @@ def connect():
     platform = request.args['platform']
     profile = request.args['profile']
     try:
-        #execution_result = ssm.executeSSM(id, platform, profile)
-        execution_result = '1000'
+        execution_result = ssm.executeSSM(id, platform, profile)
+        #execution_result = '1000'
     except:
         return make_response("Something went wrong! Try again!")
     return redirect(url_for('update', free_port=execution_result, id=id))
