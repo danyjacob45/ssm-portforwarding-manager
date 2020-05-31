@@ -33,7 +33,7 @@ def listDetails():
         except:
             pass
     except:
-        return make_response("Something went wrong! Try again!")
+        return make_response("Something went wrong! Try again!. Refer to the console log for error details")
     column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'connect_port']
     return render_template('record.html', records=response, colnames=column_names)
 
@@ -54,7 +54,7 @@ def update():
             response.append(each.to_json())
     except Exception as e:
         print(e)
-        return make_response("Something went wrong! Try again!")
+        return make_response("Something went wrong! Try again!. Refer to the console log for error details")
     column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'connect_port']
     return render_template('record.html', records=response, colnames=column_names)
 
@@ -69,7 +69,7 @@ def connect():
         execution_result = ssm.executeSSM(id, platform, profile)
         #execution_result = '1000'
     except:
-        return make_response("Something went wrong! Try again!")
+        return make_response("Something went wrong! Try again!. Refer to the console log for error details")
     return redirect(url_for('update', connect_port=execution_result, id=id))
     # return "The tunnel to server "+id +" is open on port " + str(execution_result)+ ". Press back to go back to previous page.."
 

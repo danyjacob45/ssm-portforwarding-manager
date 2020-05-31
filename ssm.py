@@ -34,16 +34,21 @@ def setup():
         boto3.setup_default_session(profile_name=aws_profiles[x])
         ec2 = boto3.resource('ec2', region_name='ap-southeast-1')
         #Will be good if can do some error handling here
-        for instance in ec2.instances.filter(Filters=filters):    
-            if instance.platform == "windows":
-                my_json = {"profile": aws_profiles[x], 'instance_id': instance.id, 'platform': "windows"}
-            else:
-                my_json = {"profile": aws_profiles[x], 'instance_id': instance.id, 'platform': "linux"}
-                # print (instance.id , instance.platform)
-            for tag in instance.tags:
-                if tag["Key"] == "Name":
-                    my_json['tag_name'] = tag["Value"]
-            list_info.append(my_json)
+        try:
+            for instance in ec2.instances.filter(Filters=filters):    
+                if instance.platform == "windows":
+                    my_json = {"profile": aws_profiles[x], 'instance_id': instance.id, 'platform': "windows"}
+                else:
+                    my_json = {"profile": aws_profiles[x], 'instance_id': instance.id, 'platform': "linux"}
+                    # print (instance.id , instance.platform)
+                for tag in instance.tags:
+                    if tag["Key"] == "Name":
+                        my_json['tag_name'] = tag["Value"]
+                list_info.append(my_json)
+        except Exception as e: # work on python 3.x
+            print('Error occured: '+ str(e))
+            return make_response("Something went wrong! Try again!. Refer to the console log for error details")
+
     print(list_info)
     return list_info
 
