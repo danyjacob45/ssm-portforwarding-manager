@@ -16,7 +16,7 @@ So, no need to login to the EC2 console and get the information, no need to find
 ## How to use
 
  1. Download the repo
- 2. Modify the variable 'profiles' in the config.py file to include your AWS Config profiles to be used
+ 2. Modify the variable 'profiles' in the config.py file to include your AWS Config profiles to be used (Those found in ~/.aws/config)
  3. Run app.py
  4. Open your browser, and go to http://127.0.0.1:5000/
 
@@ -26,6 +26,7 @@ So, no need to login to the EC2 console and get the information, no need to find
  2. AWS CLI installed and configured with profiles to use
  3. AWS Session Manager [plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) installed
  4. Your instances should have SSM agent installed and the IAM role should have permissions to be able to manage by SSM
+ 5. Your profiles should have the required IAM permissions
 
 ## Screenshots
 
