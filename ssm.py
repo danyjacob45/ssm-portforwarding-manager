@@ -33,6 +33,7 @@ def setup():
     for x in range(len(aws_profiles)):
         boto3.setup_default_session(profile_name=aws_profiles[x])
         ec2 = boto3.resource('ec2', region_name='ap-southeast-1')
+        #Will be good if can do some error handling here
         for instance in ec2.instances.filter(Filters=filters):    
             if instance.platform == "windows":
                 my_json = {"profile": aws_profiles[x], 'instance_id': instance.id, 'platform': "windows"}
