@@ -5,7 +5,7 @@ from flask_cors import CORS
 import model
 
 #Enter your AWS Credential profile names here
-profiles = ["network"]
+profiles = ["default"]
 
 def create_app():
     app = Flask(__name__)
