@@ -1,7 +1,7 @@
 import socketserver
 import subprocess
-
 import boto3
+from config import profiles
 
 AWS_CONNECTED = True
 
@@ -20,7 +20,7 @@ def executeSSM(instance_id, platform, profile, port=0):
 
 
 def setup():
-    a = ["dltest", "dlprod"] #to be loaded from a config if possible
+    a = profiles
     list_info = []
     for x in range(len(a)):
         boto3.setup_default_session(profile_name=a[x])
