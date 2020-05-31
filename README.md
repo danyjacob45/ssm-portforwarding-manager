@@ -30,7 +30,7 @@ So, no need to login to the EC2 console and get the information, no need to find
 
 ## Screenshots
 
- 1. [HomePage](https://imgur.com/a/atoS8h2)
+ 1. ![HomePage](https://imgur.com/a/atoS8h2?raw=true)
  2. [After Connection](https://imgur.com/a/ruHWAyk)
 
 ## Known Issues
