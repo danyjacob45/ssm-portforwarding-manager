@@ -25,7 +25,7 @@ class SSMAgentList(db.Model):
     instance_id = Column(String(30), primary_key=True)
     platform = Column(String(30))
     tag_name = Column(String(20))
-    free_port = Column(String(10))
+    connect_port = Column(String(10))
     updated_time = Column(DateTime(timezone=True), onupdate=func.now())
 
     def to_json(self):
@@ -34,6 +34,6 @@ class SSMAgentList(db.Model):
             'instance_id': self.instance_id,
             'platform': self.platform,
             'tag_name':self.tag_name,
-            'free_port': self.free_port,
+            'connect_port': self.connect_port,
             'updated_time': self.updated_time
         }

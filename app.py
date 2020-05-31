@@ -7,7 +7,7 @@ from model import db, SSMAgentList
 app = config.create_app()
 
 @app.route('/')
-def hello_world():
+def startup():
     return listDetails()
 
 
@@ -25,7 +25,7 @@ def listDetails():
                                        instance_id=each['instance_id'],
                                        platform=each['platform'],
                                        tag_name=each['tag_name'],
-                                       free_port="not connected",
+                                       connect_port="not connected",
                                        updated_time=datetime.now()
                                        )
                 db.session.add(ssm_Obj)
@@ -34,7 +34,7 @@ def listDetails():
             pass
     except:
         return make_response("Something went wrong! Try again!")
-    column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'free_port']
+    column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'connect_port']
     return render_template('record.html', records=response, colnames=column_names)
 
 
@@ -42,10 +42,10 @@ def listDetails():
 def update():
     try:
         id = request.args['id']
-        port = request.args['free_port']
+        port = request.args['connect_port']
         #query from db now...
         record = SSMAgentList.query.filter_by(instance_id=id).first()
-        record.free_port = port
+        record.connect_port = port
         record.updated_time = datetime.now()
         db.session.add(record)
         db.session.commit()
@@ -55,7 +55,7 @@ def update():
     except Exception as e:
         print(e)
         return make_response("Something went wrong! Try again!")
-    column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'free_port']
+    column_names = ['profile', 'instance_id', 'platform', 'tag_name', 'connect_port']
     return render_template('record.html', records=response, colnames=column_names)
 
 
@@ -70,7 +70,7 @@ def connect():
         #execution_result = '1000'
     except:
         return make_response("Something went wrong! Try again!")
-    return redirect(url_for('update', free_port=execution_result, id=id))
+    return redirect(url_for('update', connect_port=execution_result, id=id))
     # return "The tunnel to server "+id +" is open on port " + str(execution_result)+ ". Press back to go back to previous page.."
 
 

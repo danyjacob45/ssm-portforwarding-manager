@@ -4,7 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 import model
 
-profiles = ["dltest", "dlprod"]
+profiles = ["dltest", "dlprod","network"]
 
 def create_app():
     app = Flask(__name__)
